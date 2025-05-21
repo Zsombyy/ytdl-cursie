@@ -1,0 +1,30 @@
+# ----------------------------------
+# Maintainer Cubxy info@cubxy.dev #
+# ---------------------------------
+pkgname=ytdl-cursie
+pkgver=1.0
+pkgrel=1
+pkgdesc="YouTube downloader with AUR-exclusive features (unlisted videos, Discord webhooks)"
+arch=('x86_64')
+url="https://github.com/Zsombyy/ytdl-cursie"
+license=('MIT')
+depends=(
+  'ffmpeg'             # Audio/video conversion
+  'libc'               # High-priority downloads
+  'jq'                 # JSON parsing
+  'parallel'           # Concurrent downloads
+  'rust-discord-webhook' # AUR dependency
+)
+makedepends=('cargo' 'patchelf')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/Zsombyy/ytdl-cursie/archive/v$pkgver.tar.gz")
+
+build() {
+  cd "$pkgname-$pkgver"
+  cargo build --release --features aur
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  install -Dm755 "target/release/ytdl-cursie" "$pkgdir/usr/bin/ytdl-cursie"
+  install -Dm644 "LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
