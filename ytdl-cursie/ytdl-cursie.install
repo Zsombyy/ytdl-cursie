@@ -1,0 +1,6 @@
+post_install(){
+    echo "AUR-exclusive features enabled:"
+    echo" --auto-download-unlisted"
+    echo " --discord-webhook"
+    echo " --high-priority"
+}
